@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Comment from './Comment';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { isAuthenticated } from '../services/auth'
 const Post = ({ post, showComments = false }) => {
   const [comments, setComments] = useState([]);
   const [loadingComments, setLoadingComments] = useState(true);
@@ -13,7 +13,8 @@ const Post = ({ post, showComments = false }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const [processingLike, setProcessingLike] = useState(false);
 
-  // Fonction pour formater la date
+  const navigate = useNavigate();
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('fr-FR', {
@@ -24,14 +25,12 @@ const Post = ({ post, showComments = false }) => {
     }).format(date);
   };
 
-  // Récupérer les commentaires du post
   useEffect(() => {
     if (showComments) {
       const fetchComments = async () => {
         setLoadingComments(true);
         try {
           const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/comments/post/${post.id}`);
-          console.log('Commentaires récupérés :', res.data);  // Log pour vérifier les données récupérées
           setComments(res.data);
         } catch (err) {
           console.error('Erreur de chargement des commentaires', err);
@@ -57,11 +56,16 @@ const Post = ({ post, showComments = false }) => {
     checkIfLiked();
   }, [post.id, showComments]);
 
-  // Fonction pour soumettre un commentaire
   const handleCommentSubmit = async e => {
     e.preventDefault();
+
+    if (!isAuthenticated()) {
+      navigate('/login');
+      return;
+    }
+
     if (!newComment.trim()) return;
-    
+
     setSubmittingComment(true);
     try {
       const token = localStorage.getItem('token');
@@ -72,7 +76,7 @@ const Post = ({ post, showComments = false }) => {
       );
       setComments(prev => [res.data, ...prev]);
       setNewComment('');
-      reloadComments(); // Recharger les commentaires après ajout
+      reloadComments();
     } catch (err) {
       console.error("Erreur lors de l'envoi du commentaire", err);
     } finally {
@@ -80,18 +84,23 @@ const Post = ({ post, showComments = false }) => {
     }
   };
 
-  // Fonction pour liker un post
   const handleLike = async () => {
+    if (!isAuthenticated()) {
+      navigate('/login');
+      return;
+    }
+
     if (processingLike) return;
-    
+
     setProcessingLike(true);
     try {
       const token = localStorage.getItem('token');
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/posts/${post.id}/like`,
-        {}, 
+        {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       setLiked(res.data.liked);
       setLikes(res.data.count);
     } catch (err) {
@@ -101,11 +110,9 @@ const Post = ({ post, showComments = false }) => {
     }
   };
 
-  // Limiter les commentaires affichés (afficher plus de commentaires)
   const visibleComments = showAllComments ? comments : comments.slice(0, 3);
   const hasMoreComments = comments.length > 3;
 
-  // Recharger les commentaires après une action
   const reloadComments = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/comments/post/${post.id}`);
@@ -129,11 +136,6 @@ const Post = ({ post, showComments = false }) => {
             <span className="post-time">{formatDate(post.createdAt || new Date())}</span>
           </div>
         </div>
-        <div className="post-menu">
-          <button className="btn-post-menu">
-            <i className="bi bi-three-dots"></i>
-          </button>
-        </div>
       </div>
 
       <div className="post-content">
@@ -152,9 +154,6 @@ const Post = ({ post, showComments = false }) => {
         <button className="btn-action">
           <i className="bi bi-chat"></i>
           <span>{comments.length}</span>
-        </button>
-        <button className="btn-action">
-          <i className="bi bi-share"></i>
         </button>
       </div>
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CreatePost from '../components/CreatePost';
 import Post from '../components/Post';
+import { isAuthenticated } from '../services/auth';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -27,20 +28,21 @@ const Home = () => {
       <div className="container py-4">
         <div className="row">
           <div className="col-lg-8 mx-auto">
-            {/* Section de création de post avec effet shadow */}
-            <div className="card shadow-sm mb-4 create-post-card border-0 rounded-3">
-              <div className="card-body">
-                <CreatePost onPostCreated={newPost => setPosts([newPost, ...posts])} />
+
+            {/* Créer un post seulement si connecté */}
+            {isAuthenticated() && (
+              <div className="card shadow-sm mb-4 create-post-card border-0 rounded-3">
+                <div className="card-body">
+                  <CreatePost onPostCreated={newPost => setPosts([newPost, ...posts])} />
+                </div>
               </div>
-            </div>
-            
-            {/* Titre de section avec style personnalisé */}
+            )}
+
             <div className="d-flex align-items-center mb-3">
               <h2 className="news-feed-title">Fil d'actualités</h2>
               <div className="feed-divider flex-grow-1 ms-3"></div>
             </div>
-            
-            {/* État de chargement */}
+
             {loading ? (
               <div className="text-center py-5">
                 <div className="spinner-grow text-primary" role="status">
@@ -51,7 +53,7 @@ const Home = () => {
               <div className="card shadow-sm border-0 rounded-3">
                 <div className="card-body text-center py-5">
                   <i className="bi bi-inbox-fill display-1 text-secondary"></i>
-                  <p className="mt-3 text-muted">Aucun post disponible. Sois le premier à publier !</p>
+                  <p className="mt-3 text-muted">Pas de post pour le moment. Sois le premier à publier !</p>
                 </div>
               </div>
             ) : (

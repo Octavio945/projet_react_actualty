@@ -8,7 +8,7 @@ const CreatePost = ({ onPostCreated }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (!content.trim()) return;
-    
+
     setIsSubmitting(true);
     try {
       const token = localStorage.getItem('token');
@@ -36,7 +36,7 @@ const CreatePost = ({ onPostCreated }) => {
         </div>
         <h5 className="mb-0">Quoi de neuf ?</h5>
       </div>
-      
+
       <form onSubmit={handleSubmit}>
         <div className="form-floating mb-3">
           <textarea
@@ -52,18 +52,8 @@ const CreatePost = ({ onPostCreated }) => {
         </div>
 
         <div className="d-flex justify-content-between align-items-center">
-          <div className="post-actions">
-            <button type="button" className="btn btn-sm btn-outline-secondary rounded-circle me-2">
-              <i className="bi bi-image"></i>
-            </button>
-            <button type="button" className="btn btn-sm btn-outline-secondary rounded-circle me-2">
-              <i className="bi bi-emoji-smile"></i>
-            </button>
-            <button type="button" className="btn btn-sm btn-outline-secondary rounded-circle">
-              <i className="bi bi-geo-alt"></i>
-            </button>
-          </div>
-          
+          <div className="post-actions"></div>
+
           <button 
             type="submit" 
             className="btn btn-primary px-4 rounded-pill publish-btn"

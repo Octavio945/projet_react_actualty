@@ -7,7 +7,6 @@ const LoginForm = ({ setToken }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -81,23 +80,7 @@ const LoginForm = ({ setToken }) => {
                 <label htmlFor="passwordInput">Mot de passe</label>
               </div>
               
-              <div className="d-flex justify-content-between align-items-center mb-4">
-                <div className="form-check">
-                  <input 
-                    type="checkbox" 
-                    className="form-check-input" 
-                    id="rememberMe"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)} 
-                  />
-                  <label className="form-check-label" htmlFor="rememberMe">
-                    Se souvenir de moi
-                  </label>
-                </div>
-                <Link to="/forgot-password" className="forgot-password">
-                  Mot de passe oublié ?
-                </Link>
-              </div>
+             
               
               <button 
                 type="submit" 
@@ -117,20 +100,7 @@ const LoginForm = ({ setToken }) => {
                 )}
               </button>
               
-              <div className="social-login mt-4">
-                <p className="text-center text-muted mb-3">Ou connecte-toi avec</p>
-                <div className="d-flex justify-content-center gap-3">
-                  <button type="button" className="btn btn-outline-secondary social-btn">
-                    <i className="bi bi-google"></i>
-                  </button>
-                  <button type="button" className="btn btn-outline-secondary social-btn">
-                    <i className="bi bi-facebook"></i>
-                  </button>
-                  <button type="button" className="btn btn-outline-secondary social-btn">
-                    <i className="bi bi-twitter-x"></i>
-                  </button>
-                </div>
-              </div>
+             
             </form>
             
             <div className="text-center mt-4">

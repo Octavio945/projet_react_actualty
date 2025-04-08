@@ -139,20 +139,7 @@ const RegisterForm = () => {
                 )}
               </button>
               
-              <div className="social-login mt-4">
-                <p className="text-center text-muted mb-3">Ou inscrivez-vous avec</p>
-                <div className="d-flex justify-content-center gap-3">
-                  <button type="button" className="btn btn-outline-secondary social-btn">
-                    <i className="bi bi-google"></i>
-                  </button>
-                  <button type="button" className="btn btn-outline-secondary social-btn">
-                    <i className="bi bi-facebook"></i>
-                  </button>
-                  <button type="button" className="btn btn-outline-secondary social-btn">
-                    <i className="bi bi-twitter-x"></i>
-                  </button>
-                </div>
-              </div>
+              
             </form>
             
             <div className="text-center mt-4">

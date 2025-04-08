@@ -47,16 +47,6 @@ const Header = ({ isAuthenticated, onLogout }) => {
             </div>
             
             <div className="search-bar-desktop d-none d-lg-block mx-auto">
-              <div className="input-group">
-                <span className="input-group-text bg-transparent border-end-0">
-                  <i className="bi bi-search"></i>
-                </span>
-                <input 
-                  type="text" 
-                  className="form-control border-start-0" 
-                  placeholder="Rechercher..." 
-                />
-              </div>
             </div>
             
             <ul className="navbar-nav ms-auto">
@@ -76,20 +66,6 @@ const Header = ({ isAuthenticated, onLogout }) => {
               ) : (
                 <>
                   <li className="nav-item dropdown">
-                    <a 
-                      className="nav-link dropdown-toggle" 
-                      href="#" 
-                      id="navbarDropdown" 
-                      role="button" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false"
-                    >
-                      <div className="d-inline-block position-relative me-1">
-                        <i className="bi bi-bell-fill"></i>
-                        <span className="notification-badge">3</span>
-                      </div>
-                      Notifications
-                    </a>
                     <ul className="dropdown-menu notification-dropdown" aria-labelledby="navbarDropdown">
                       <li><a className="dropdown-item" href="#">Marie a aimé votre post</a></li>
                       <li><a className="dropdown-item" href="#">Pierre a commenté votre photo</a></li>
